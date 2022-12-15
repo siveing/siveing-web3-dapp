@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { ethers } from 'ethers';
 
 import contract from './../../Contracts/SSartToken.json';
+import { eToNumber } from "../../Utils";
 
 const contractAddress = contract.addressContract;
 const abi = contract.abi;
@@ -34,7 +35,7 @@ export default function MintTokenModal({ setShowModal, showModal }) {
                 const provider = new ethers.providers.Web3Provider(ethereum);
                 const signer = provider.getSigner();
                 const nftContract = new ethers.Contract(contractAddress, abi, signer);
-                let nftTxn = await nftContract.mint(address, (amount * 10 ** 18).toString());
+                let nftTxn = await nftContract.mint(address, eToNumber((amount * 10 ** 18).toString()));
                 // Waiting the transaction is success
                 await nftTxn.wait();
                 toast.success("Minted successfully.", {

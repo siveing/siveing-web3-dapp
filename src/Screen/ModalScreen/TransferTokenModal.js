@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { ethers } from 'ethers';
 
 import contract from './../../Contracts/SSartToken.json';
+import { eToNumber } from "../../Utils";
 
 const contractAddress = contract.addressContract;
 const abi = contract.abi;
@@ -34,7 +35,7 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
         try {
             if (ethereum) {
                 setIsSuccess(false);
-                let nftTxn = await nftContract.transfer(address, (amount * 10 ** 18).toString());
+                let nftTxn = await nftContract.transfer(address, eToNumber((amount * 10 ** 18).toString()));
                 // Waiting the transaction is success
                 await nftTxn.wait();
                 toast.success("Transfer successfully.", {
