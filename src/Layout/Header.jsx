@@ -14,8 +14,8 @@ const Header = () => {
     const { pathname } = useLocation();
 
     const navigation = [
-        { name: 'Home', href: '/', auth: false },
-        { name: 'Account', href: '/account', auth: !stateUser.isAuthenticated },
+        { name: 'Home', href: '/siveing-web3-dapp', auth: false },
+        { name: 'Account', href: '/siveing-web3-dapp/account', auth: !stateUser.isAuthenticated },
     ];
 
     return (
