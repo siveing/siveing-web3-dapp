@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { ethers } from 'ethers';
-
-import contract from './../../Contracts/SSartToken.json';
 import { eToNumber } from "../../Utils";
-
-const contractAddress = contract.addressContract;
-const abi = contract.abi;
+import { blockExplorer, tokenContract } from "../../Common";
 
 export default function TransferTokenModal({ setShowModal, showModal }) {
     const { ethereum } = window;
@@ -14,10 +9,6 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
     const [amount, setAmount] = useState('');
     const [transaction, setTransaction] = useState(null);
     const [isSuccess, setIsSuccess] = useState(true);
-
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
     const handleMintToken = async () => {
         if (address === '') {
@@ -35,7 +26,7 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
         try {
             if (ethereum) {
                 setIsSuccess(false);
-                let nftTxn = await nftContract.transfer(address, eToNumber((amount * 10 ** 18).toString()));
+                let nftTxn = await tokenContract.transfer(address, eToNumber((amount * 10 ** 18).toString()));
                 // Waiting the transaction is success
                 await nftTxn.wait();
                 toast.success("Transfer successfully.", {
@@ -48,7 +39,6 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
                     position: 'top-right',
                 });
             }
-
         } catch (err) {
             setIsSuccess(true);
             if (err.reason !== undefined) {
@@ -120,7 +110,7 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
                                     {transaction ? (
                                         <p className="text-green-500 text-lg leading-relaxed mt-2">
                                             Minted, see transaction: <br />
-                                            <a href={`https://testnet.iotexscan.io/tx/${transaction}`} target={'_blank'} className="text-black">
+                                            <a href={blockExplorer + transaction} target={'_blank'} className="text-black">
                                                 {transaction.slice(0, 60) + '...'}
                                             </a>
                                         </p>

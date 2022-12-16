@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
-import { ethers } from 'ethers';
-
-import contract from './../../Contracts/SSartToken.json';
+import { blockExplorer, tokenContract } from "../../Common";
+import { StateContext } from "../../Context/StateProvider";
 import { eToNumber } from "../../Utils";
 
-const contractAddress = contract.addressContract;
-const abi = contract.abi;
-
 export default function MintTokenModal({ setShowModal, showModal }) {
-
+    const { stateUser } = useContext(StateContext);
     const [address, setAddress] = useState('');
     const [amount, setAmount] = useState('');
     const [transaction, setTransaction] = useState(null);
@@ -32,10 +28,7 @@ export default function MintTokenModal({ setShowModal, showModal }) {
             const { ethereum } = window;
             if (ethereum) {
                 setIsSuccess(false);
-                const provider = new ethers.providers.Web3Provider(ethereum);
-                const signer = provider.getSigner();
-                const nftContract = new ethers.Contract(contractAddress, abi, signer);
-                let nftTxn = await nftContract.mint(address, eToNumber((amount * 10 ** 18).toString()));
+                let nftTxn = await tokenContract.mint(address, eToNumber((amount * 10 ** 18).toString()));
                 // Waiting the transaction is success
                 await nftTxn.wait();
                 toast.success("Minted successfully.", {
@@ -72,7 +65,7 @@ export default function MintTokenModal({ setShowModal, showModal }) {
                                 {/*header*/}
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-xl font-semibold">
-                                        Mint SSART Token
+                                        Mint {stateUser.wallet.symbol} Token
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text3xl leading-none font-semibold outline-none focus:outline-none"
@@ -120,7 +113,7 @@ export default function MintTokenModal({ setShowModal, showModal }) {
                                     {transaction ? (
                                         <p className="text-green-500 text-lg leading-relaxed mt-2">
                                             Minted, see transaction: <br />
-                                            <a href={`https://testnet.iotexscan.io/tx/${transaction}`} target={'_blank'} className="text-black">
+                                            <a href={blockExplorer + transaction} target={'_blank'} className="text-black">
                                                 {transaction.slice(0, 60) + '...'}
                                             </a>
                                         </p>

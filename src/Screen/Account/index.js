@@ -31,16 +31,19 @@ export default function Account() {
                             <span className="block sm:inline">{stateUser.wallet.balance} <b>{stateUser.wallet.symbol}</b></span>
                         </div>
                     </div>
+                    {stateUser.wallet.address === (stateUser.wallet.owner).toLowerCase() && (
+                        <>
+                            <button onClick={() => setShowModalMintToken(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 mr-3'>
+                                Mint {stateUser.wallet.symbol} Token
+                            </button>
 
-                    <button onClick={() => setShowModalMintToken(true)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3'>
-                        Mint SSART Token
-                    </button>
+                            <button onClick={() => setShowModalMintNFT(true)} className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mt-3 mr-3'>
+                                Mint CSRT NFT
+                            </button>
+                        </>
+                    )}
 
-                    <button onClick={() => setShowModalMintNFT(true)} className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3'>
-                        Mint CSRT NFT
-                    </button>
-
-                    <button onClick={() => setShowModaklTransferToken(true)} className='bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-3 ml-3'>
+                    <button onClick={() => setShowModaklTransferToken(true)} className='bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-3 mr-3'>
                         Transfer Token
                     </button>
                 </div>

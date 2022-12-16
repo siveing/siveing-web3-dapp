@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { ethers } from 'ethers';
-
-import contractNFT from './../../Contracts/CSRTNft.json';
-
-const contractNFTAddress = contractNFT.addressContract;
-const abiNFT = contractNFT.abi;
+import { blockExplorer, nftContract } from "../../Common";
 
 export default function MintNFTModal({ setShowModal, showModal }) {
-
     const [address, setAddress] = useState('');
     const [name, setName] = useState('');
     const [uri, setUri] = useState('');
@@ -43,9 +37,6 @@ export default function MintNFTModal({ setShowModal, showModal }) {
             const { ethereum } = window;
             if (ethereum) {
                 setIsSuccess(false);
-                const provider = new ethers.providers.Web3Provider(ethereum);
-                const signer = provider.getSigner();
-                const nftContract = new ethers.Contract(contractNFTAddress, abiNFT, signer);
                 let nftTxn = await nftContract.safeMint(address, name, uri, description);
                 // Waiting the transaction is success
                 await nftTxn.wait();
@@ -61,7 +52,7 @@ export default function MintNFTModal({ setShowModal, showModal }) {
             }
         } catch (err) {
             setIsSuccess(true);
-            if (err.reason !== undefined ) {
+            if (err.reason !== undefined) {
                 toast.error(err.reason, {
                     position: 'top-right',
                 });
@@ -160,7 +151,7 @@ export default function MintNFTModal({ setShowModal, showModal }) {
                                     {transaction ? (
                                         <p className="text-green-500 text-lg leading-relaxed mt-2">
                                             Minted, see transaction: <br />
-                                            <a href={`https://testnet.iotexscan.io/tx/${transaction}`} target={'_blank'} className="text-black">
+                                            <a href={blockExplorer + transaction} target={'_blank'} className="text-black">
                                                 {transaction.slice(0, 60) + '...'}
                                             </a>
                                         </p>
