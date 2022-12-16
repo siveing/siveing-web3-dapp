@@ -46,7 +46,7 @@ function StateProvider(props) {
         });
 
         const retrieveData = async () => {
-            
+
             const { chainId } = await provider.getNetwork()
             if (!someTestnetChainIds.includes(chainId)) {
                 alert("Please make sure you're conntect to testnet network (IOTEX, POLYGON).");
@@ -69,6 +69,8 @@ function StateProvider(props) {
                 }
                 setCheckingIsAuthenticated(true);
             } catch (error) {
+                console.log("error");
+                console.log(error);
                 setCheckingIsAuthenticated(false);
             }
         };
