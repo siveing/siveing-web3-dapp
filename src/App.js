@@ -14,11 +14,11 @@ function App() {
         <>
             <Header />
             <Routes>
-                <Route exact path="/siveing-web3-dapp" element={<Home />} />
+                <Route exact path="/" element={<Home />} />
                 {stateUser.isAuthenticated === true && (
                     <>
-                        <Route exact path="/siveing-web3-dapp/account" element={<Account />} />
-                        <Route path="/siveing-web3-dapp/token/:id" element={<ShowDetailTokenURI />} />
+                        <Route exact path="/account" element={<Account />} />
+                        <Route path="/token/:id" element={<ShowDetailTokenURI />} />
                     </>
                 )}
                 <Route path="*" element={<Notfound />} />
