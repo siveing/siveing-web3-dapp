@@ -10,7 +10,7 @@ import StateProvider from './Context/StateProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <StateProvider>
-        <BrowserRouter basename='/siveing-web3-dapp'>
+        <BrowserRouter basename='/'>
             <React.StrictMode>
                 <App />
                 <Toaster>

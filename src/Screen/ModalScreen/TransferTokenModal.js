@@ -110,7 +110,7 @@ export default function TransferTokenModal({ setShowModal, showModal }) {
                                     {transaction ? (
                                         <p className="text-green-500 text-lg leading-relaxed mt-2">
                                             Minted, see transaction: <br />
-                                            <a href={blockExplorer + transaction} target={'_blank'} className="text-black">
+                                            <a href={blockExplorer + transaction} rel="noopener" className="text-black">
                                                 {transaction.slice(0, 60) + '...'}
                                             </a>
                                         </p>

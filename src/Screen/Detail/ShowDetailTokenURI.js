@@ -47,6 +47,7 @@ export default function ShowDetailTokenURI() {
         return () => {
             getObject()
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

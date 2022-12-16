@@ -3,7 +3,6 @@ import { toast } from 'react-hot-toast';
 import { eToNumber, isEmpty } from '../Utils';
 import { setCurrentUser } from './actions';
 import reducers from './reducers';
-import { ethers } from 'ethers';
 import { provider, someTestnetChainIds, tokenContract } from '../Common';
 
 export const StateContext = createContext();
@@ -18,9 +17,10 @@ function StateProvider(props) {
 
     const [stateUser, dispatch] = useReducer(reducers, initialState);
     const [CheckingIsAuthenticated, setCheckingIsAuthenticated] = useState(false);
-    const { ethereum } = window;
 
     useEffect(() => {
+
+        const { ethereum } = window;
 
         if (!ethereum) {
             console.log("Make sure you have Metamask installed!");

@@ -1,7 +1,6 @@
 import { ethers } from 'ethers';
 import contract20 from './../Contracts/ERC-20.json';
 import contract721 from './../Contracts/ERC-721.json';
-import contract1155 from './../Contracts/ERC-721.json';
 
 // Custom block explorer
 const blockExplorer = "https://testnet.iotexscan.io/tx/"
