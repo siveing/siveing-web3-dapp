@@ -15,11 +15,14 @@ export default function ShowDetailTokenURI() {
         const getObject = async () => {
             try {
                 const tokenURI = params.id;
+                console.log("tokenURI, ", tokenURI);
                 const { ethereum } = window;
                 if (ethereum) {
                     setIsSuccess(false);
                     let ownerOf = await nftContract.ownerOf(tokenURI);
+                    console.log("ownerOf, ", ownerOf);
                     let object = await nftContract.data(tokenURI);
+                    console.log('object, ', object);
                     if (!isEmpty(ownerOf)) setOwnerOf(ownerOf);
                     if (!isEmpty(object)) setObjectNft(object);
                     setIsSuccess(true);
@@ -29,15 +32,9 @@ export default function ShowDetailTokenURI() {
                     });
                 }
             } catch (err) {
-                setIsSuccess(false);
-                if (err.data !== undefined && err.data.message !== undefined) {
-                    toast.error(err.data.message, {
-                        position: 'top-right',
-                    });
-                    return
-                }
-                if (err.message !== undefined) {
-                    toast.error(err.message, {
+                setIsSuccess(true);
+                if (err.reason !== undefined ) {
+                    toast.error(err.reason, {
                         position: 'top-right',
                     });
                 }
@@ -45,7 +42,7 @@ export default function ShowDetailTokenURI() {
         }
 
         return () => {
-            getObject()
+            getObject();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
