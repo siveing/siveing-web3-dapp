@@ -1,7 +1,7 @@
 {
   "name": "siveing-web3-dapp",
   "version": "0.1.0",
-  "homepage": "https://siveing.github.io/siveing-web3-dapp",
+  "homepage": "https://siveing.github.io/siveing-web3-dapp/",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.5",
