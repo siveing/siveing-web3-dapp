@@ -16,6 +16,7 @@ const Header = () => {
     const navigation = [
         { name: 'Home', href: '/', auth: false },
         { name: 'Account', href: '/account', auth: !stateUser.isAuthenticated },
+        { name: 'NFT', href: '/token/0', auth: !stateUser.isAuthenticated },
     ];
 
     return (

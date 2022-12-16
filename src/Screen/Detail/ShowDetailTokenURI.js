@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { isEmpty } from '../../Utils';
 import { nftContract } from '../../Common';
+import SearchTokenBar from './SearchToken';
 
 export default function ShowDetailTokenURI() {
     let params = useParams();
@@ -15,25 +16,24 @@ export default function ShowDetailTokenURI() {
         const getObject = async () => {
             try {
                 const tokenURI = params.id;
-                console.log("tokenURI, ", tokenURI);
                 const { ethereum } = window;
                 if (ethereum) {
                     setIsSuccess(false);
                     let ownerOf = await nftContract.ownerOf(tokenURI);
-                    console.log("ownerOf, ", ownerOf);
                     let object = await nftContract.data(tokenURI);
-                    console.log('object, ', object);
-                    if (!isEmpty(ownerOf)) setOwnerOf(ownerOf);
-                    if (!isEmpty(object)) setObjectNft(object);
-                    setIsSuccess(true);
+                    if (!isEmpty(ownerOf) && !isEmpty(object)) {
+                        setOwnerOf(ownerOf);
+                        setObjectNft(object);
+                        setIsSuccess(true);
+                    }
                 } else {
                     toast.error("Ethereum object does not exist", {
                         position: 'top-right',
                     });
                 }
             } catch (err) {
-                setIsSuccess(true);
-                if (err.reason !== undefined ) {
+                setIsSuccess(false);
+                if (err.reason !== undefined) {
                     toast.error(err.reason, {
                         position: 'top-right',
                     });
@@ -42,7 +42,7 @@ export default function ShowDetailTokenURI() {
         }
 
         return () => {
-            getObject();
+            getObject()
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -50,6 +50,7 @@ export default function ShowDetailTokenURI() {
     return (
         <SafeArea>
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                <SearchTokenBar />
                 {isSuccess ? (
                     <div>
                         <div className="flex w-full transform text-left text-base transition md:my-4">
