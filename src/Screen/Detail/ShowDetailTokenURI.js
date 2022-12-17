@@ -16,11 +16,15 @@ export default function ShowDetailTokenURI() {
         const getObject = async () => {
             try {
                 const tokenURI = params.id;
+                console.log(tokenURI);
                 const { ethereum } = window;
+                console.log(ethereum);
                 if (ethereum) {
                     setIsSuccess(false);
                     let ownerOf = await nftContract.ownerOf(tokenURI);
                     let object = await nftContract.data(tokenURI);
+                    console.log('ownerOf, ',ownerOf);
+                    console.log('object, ',object);
                     if (!isEmpty(ownerOf) && !isEmpty(object)) {
                         setOwnerOf(ownerOf);
                         setObjectNft(object);
