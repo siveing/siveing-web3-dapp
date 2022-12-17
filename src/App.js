@@ -18,7 +18,7 @@ function App() {
                 {stateUser.isAuthenticated === true && (
                     <>
                         <Route exact path="/account" element={<Account />} />
-                        <Route path="/token/:id" element={<ShowDetailTokenURI />} />
+                        <Route path="/token" element={<ShowDetailTokenURI />} />
                     </>
                 )}
                 <Route path="*" element={<Notfound />} />

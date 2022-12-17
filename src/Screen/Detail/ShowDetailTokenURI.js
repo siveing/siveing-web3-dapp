@@ -1,58 +1,61 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SafeArea from '../../Components/SafeArea'
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { isEmpty } from '../../Utils';
 import { nftContract } from '../../Common';
 
 export default function ShowDetailTokenURI() {
-    let params = useParams();
     const [ownerOf, setOwnerOf] = useState('');
     const [objectNft, setObjectNft] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [handleClick, setHandleClick] = useState(false);
+    const [tokenURI, setTokenURI] = useState('');
 
-    useEffect(() => {
-        const getObject = async () => {
-            try {
-                const tokenURI = params.id;
-                console.log(tokenURI);
-                const { ethereum } = window;
-                console.log(ethereum);
-                if (ethereum) {
-                    setIsSuccess(false);
-                    let ownerOf = await nftContract.ownerOf(tokenURI);
-                    let object = await nftContract.data(tokenURI);
-                    console.log('ownerOf, ',ownerOf);
-                    console.log('object, ',object);
-                    if (!isEmpty(ownerOf) && !isEmpty(object)) {
-                        setOwnerOf(ownerOf);
-                        setObjectNft(object);
-                        setIsSuccess(true);
-                    }
-                } else {
-                    toast.error("Ethereum object does not exist", {
-                        position: 'top-right',
-                    });
-                }
-            } catch (err) {
+    const handleSearchToken = async () => {
+        try {
+            setHandleClick(true)
+            const { ethereum } = window;
+            if (ethereum) {
                 setIsSuccess(false);
-                if (err.reason !== undefined) {
-                    toast.error(err.reason, {
-                        position: 'top-right',
-                    });
+                let ownerOf = await nftContract.ownerOf(tokenURI);
+                let object = await nftContract.data(tokenURI);
+                if (!isEmpty(ownerOf) && !isEmpty(object)) {
+                    setOwnerOf(ownerOf);
+                    setObjectNft(object);
+                    setIsSuccess(true);
+                    setHandleClick(false)
                 }
+            } else {
+                toast.error("Ethereum object does not exist", {
+                    position: 'top-right',
+                });
+            }
+        } catch (err) {
+            setIsSuccess(false);
+            setHandleClick(false)
+            if (err.reason !== undefined) {
+                toast.error(err.reason, {
+                    position: 'top-right',
+                });
             }
         }
-
-        return () => {
-            getObject()
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    };
 
     return (
         <SafeArea>
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+
+                <div className='mb-4'>
+                    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search NFT token</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" className="w-5 h-5 text-gray-100 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="number" value={tokenURI} onChange={e => setTokenURI(e.target.value)} id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-200 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search NFT token, please enter token number" required />
+                        <button onClick={handleSearchToken} type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search NFT token</button>
+                    </div>
+                </div>
+
                 {isSuccess ? (
                     <div>
                         <div className="flex w-full transform text-left text-base transition md:my-4">
@@ -78,11 +81,16 @@ export default function ShowDetailTokenURI() {
                         </div>
                     </div>
                 ) : (
-                    <div className="grid gap-2 mt-32">
-                        <div className="flex items-center justify-center ">
-                            <div className="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
-                        </div>
-                    </div>
+                    <>
+                        {(tokenURI && handleClick) && (
+                            <div className="grid gap-2 mt-32">
+                                <div className="flex items-center justify-center ">
+                                    <div className="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+                                </div>
+                            </div>
+                        )}
+                    </>
+
                 )}
             </div>
         </SafeArea>
