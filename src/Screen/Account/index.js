@@ -4,7 +4,6 @@ import MintTokenModal from './../ModalScreen/MintTokenModal';
 import MintNFTModal from './../ModalScreen/MintNFTModal';
 import { StateContext } from '../../Context/StateProvider';
 import TransferTokenModal from '../ModalScreen/TransferTokenModal';
-import SearchTokenBar from '../Detail/SearchToken';
 
 export default function Account() {
 
@@ -22,7 +21,6 @@ export default function Account() {
 
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 <div>
-                    <SearchTokenBar />
                     <div className="bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded-xl relative" role="alert">
                         <div>
                             <strong className="font-bold">Account connected: </strong>

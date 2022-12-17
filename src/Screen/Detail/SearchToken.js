@@ -14,8 +14,6 @@ export default function SearchTokenBar() {
         }
     }
 
-    return null;
-
     return (
         <div className='mb-4'>
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search NFT token</label>

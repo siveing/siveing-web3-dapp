@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { isEmpty } from '../../Utils';
 import { nftContract } from '../../Common';
-import SearchTokenBar from './SearchToken';
 
 export default function ShowDetailTokenURI() {
     let params = useParams();
@@ -54,7 +53,6 @@ export default function ShowDetailTokenURI() {
     return (
         <SafeArea>
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <SearchTokenBar />
                 {isSuccess ? (
                     <div>
                         <div className="flex w-full transform text-left text-base transition md:my-4">
